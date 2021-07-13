@@ -2,7 +2,6 @@
 #include<conio.h>
 void insertionSort(int a[],int n);
 void display(int a[], int n);
-void swap(int *x,int *y);
 int i,j;
 int main() 
 {
