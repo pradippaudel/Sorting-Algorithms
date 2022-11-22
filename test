@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+class B; //forward declaration
+class A
+{
+int x,y;
+public:
+void getdata()
+{
+cout<<"Enter the value of x and y:"<<endl;
+cin>>x>>y;
+}
+friend class B;
+};
+class B
+{
+int z;
+public:
+void getdata()
+{
+cout<<"Enter the value of z:";
+cin>>z;
+}
+int sum(A t)
+{
+return(t.x+t.y);
+}
+friend void add(B x,int r);
+};
+void add(B x,int r)
+{
+cout<<"sum="<<(x.z+r)<<endl;
+}
+int main()
+{
+A p;
+B q;
+int r;
+p.getdata();
+q.getdata();
+r=q.sum(p);
+add(q,r);
+return 0;
+}
