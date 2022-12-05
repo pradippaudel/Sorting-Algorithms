@@ -1,0 +1,82 @@
+#include<iostream>
+#include <cmath>
+using namespace std;
+float max(float x,float y,float z);
+int main()
+{
+	float w1=0.2,w2=0.3,b=0.1;//initialization of weight and bias
+	float alpha=0.1;//initialization of learning rate
+	float threshold=0.01;
+	 	
+	float yin,x1,x2,dw1,dw2,db,e,error[4],relative_error[3];
+	//considering bias in each case 1
+int i,j=0;
+	int x[4][2] = { {-1,-1},{-1,1},{1,-1},{1,1}};
+	int t[4]={ -1,-1,-1,1};
+	float result;
+	do
+	{
+		error[0]=0;
+		error[1]=0;
+		error[2]=0;
+		error[3]=0;
+		cout <<"For Epoch:"<<j+1<<endl;	
+		for(i=0;i<4;i++)
+		{
+			//cout<<"For "<<i+1<<"th input"<<endl;
+			//cout<<"x1="<<x[i][0]<<" and x2="<<x[i][1]<<" with target="<<t[i]<<endl;
+			yin=b+w1*x[i][0]+w2*x[i][1]	;
+			//cout<<"yin="<<yin<<endl;
+			e=t[i]-yin;
+            //cout<<"Error="<<e<<endl;
+			
+			//adjust weight
+			w1=w1+x[i][0]*alpha*(t[i]-yin);
+			w2=w2+x[i][1]*alpha*(t[i]-yin);
+			b=b+alpha*(t[i]-yin);
+			
+			//cout<<"After adjustment"<<endl;
+			//cout<<"w1="<<w1<<endl;
+		    //cout<<"w2="<<w2<<endl;
+		    // cout<<"b="<<b<<endl;
+			
+			dw1=fabs(x[i][0]*alpha*(t[i]-yin));
+			dw2=fabs(x[i][1]*alpha*(t[i]-yin));
+			db=fabs(alpha*(t[i]-yin));
+		
+
+			//cout<<"Delta w1="<<dw1<<endl;
+			//cout<<"Delta w2="<<dw2<<endl;
+			//cout<<" Delta b="<<db<<endl;	
+			result=max(dw1,dw2,db);
+			cout<<"Largest weight change for iteration"<<i+1<<"="<<result<<endl;
+			error[i]=result;	
+		}
+		relative_error[0]=fabs(error[1]-error[0])/error[0];
+		relative_error[1]=fabs(error[2]-error[1])/error[1];
+		relative_error[3]=fabs(error[3]-error[2])/error[2];
+	
+		for(int m=0;m<3;m++)
+		{
+		cout<<"Relative error"<<m+1<<"="<<relative_error[i]<<endl;
+		}
+		j++;	
+   }while(relative_error[0]>threshold ||relative_error[1]>threshold ||relative_error[2]>threshold);
+return 0;
+}
+float max(float x,float y,float z)
+{
+	if(x>y && x>z)
+	{
+		return x;
+	}
+	else if(y>z)
+	{
+		return y;
+	}
+	else
+	{
+		return z;
+	}
+	
+}
